@@ -8,12 +8,23 @@
   "item": [
     {
       "name": "LoginGetToken",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const resp = pm.response.json();\nconst tokenID = resp.token;\nconsole.log(\"tokenID: \"+tokenID);\npm.collectionVariables.set(\"tokenID\", \"Bearer \"+tokenID);"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "POST",
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"email\": \"sowmyadibdalli@gmail.com\",\n    \"password\": \"Pistol1!\"\n}",
+          "raw": "{\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -21,12 +32,9 @@
           }
         },
         "url": {
-          "raw": "https://thinking-tester-contact-list.herokuapp.com/users/login",
-          "protocol": "https",
+          "raw": "{{baseURL}}/users/login",
           "host": [
-            "thinking-tester-contact-list",
-            "herokuapp",
-            "com"
+            "{{baseURL}}"
           ],
           "path": [
             "users",
@@ -40,9 +48,21 @@
       "name": "GetAllContacts",
       "request": {
         "method": "GET",
-        "header": [],
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{tokenID}}"
+          }
+        ],
         "url": {
-          "raw": ""
+          "raw": "{{baseURL}}/contacts/",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "contacts",
+            ""
+          ]
         }
       },
       "response": []
@@ -51,21 +71,44 @@
       "name": "GetContactByID",
       "request": {
         "method": "GET",
-        "header": [],
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{tokenID}}"
+          }
+        ],
         "url": {
-          "raw": ""
+          "raw": "{{baseURL}}/contacts/6adb388378b8470015f597d4",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "contacts",
+            "6adb388378b8470015f597d4"
+          ]
         }
       },
       "response": []
     },
     {
       "name": "CreateContact",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const resp = pm.response.json();\nconst id = resp._id;"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "POST",
         "header": [
           {
             "key": "Authorization",
-            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWU4OTViN2Q0MGZjYTAwMTU4MjE5YzgiLCJpYXQiOjE3OTI3NDk5NDN9.0nIvuiVYnIIF8AC2UwXTn4wmkD33ASuPew4NvdflL9I"
+            "value": "{{tokenID}}"
           }
         ],
         "body": {
@@ -78,12 +121,9 @@
           }
         },
         "url": {
-          "raw": "https://thinking-tester-contact-list.herokuapp.com/contacts",
-          "protocol": "https",
+          "raw": "{{baseURL}}/contacts",
           "host": [
-            "thinking-tester-contact-list",
-            "herokuapp",
-            "com"
+            "{{baseURL}}"
           ],
           "path": [
             "contacts"
@@ -99,12 +139,12 @@
         "header": [
           {
             "key": "Authorization",
-            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWU4OTViN2Q0MGZjYTAwMTU4MjE5YzgiLCJpYXQiOjE3OTI3NDk5NDN9.0nIvuiVYnIIF8AC2UwXTn4wmkD33ASuPew4NvdflL9I"
+            "value": "{{tokenID}}"
           }
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"city\": \"Kildare\"\n}",
+          "raw": "    {\n    \"firstName\": \"Cypress\",\n    \"lastName\": \"Auto\",\n    \"birthdate\": \"1970-01-01\",\n    \"email\": \"cypress@gmail.com\",\n    \"phone\": \"8005555555\",\n    \"street1\": \"1 Main St.\",\n    \"street2\": \"Apartment A\",\n    \"city\": \"Kildare\",\n    \"stateProvince\": \"Karnataka\",\n    \"postalCode\": \"577004\",\n    \"country\": \"India\"\n    }",
           "options": {
             "raw": {
               "language": "json"
@@ -112,16 +152,45 @@
           }
         },
         "url": {
-          "raw": "https://thinking-tester-contact-list.herokuapp.com/contacts/6adb32f85c08fc0015a96e7e",
-          "protocol": "https",
+          "raw": "{{baseURL}}/contacts/{{id}}",
           "host": [
-            "thinking-tester-contact-list",
-            "herokuapp",
-            "com"
+            "{{baseURL}}"
           ],
           "path": [
             "contacts",
-            "6adb32f85c08fc0015a96e7e"
+            "{{id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PatchCall",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{tokenID}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": " {\n   \n    \"birthdate\": \"1994-06-18\",\n    \"email\": \"cypress@gmail.com\",\n    \"phone\": \"9864753125\",\n    \"city\": \"Kilcullen\"\n }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/contacts/{{id}}",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "contacts",
+            "{{id}}"
           ]
         }
       },
@@ -134,20 +203,17 @@
         "header": [
           {
             "key": "Authorization",
-            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWU4OTViN2Q0MGZjYTAwMTU4MjE5YzgiLCJpYXQiOjE3OTI3NDk5NDN9.0nIvuiVYnIIF8AC2UwXTn4wmkD33ASuPew4NvdflL9I"
+            "value": "{{tokenID}}"
           }
         ],
         "url": {
-          "raw": "https://thinking-tester-contact-list.herokuapp.com/contacts/6adb32f85c08fc0015a96e7e",
-          "protocol": "https",
+          "raw": "{{baseURL}}/contacts/{{id}}",
           "host": [
-            "thinking-tester-contact-list",
-            "herokuapp",
-            "com"
+            "{{baseURL}}"
           ],
           "path": [
             "contacts",
-            "6adb32f85c08fc0015a96e7e"
+            "{{id}}"
           ]
         }
       },
@@ -178,14 +244,16 @@
       "name": "Head",
       "request": {
         "method": "HEAD",
-        "header": [],
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenID}}"
+          }
+        ],
         "url": {
-          "raw": "https://thinking-tester-contact-list.herokuapp.com/contacts/",
-          "protocol": "https",
+          "raw": "{{baseURL}}/contacts/",
           "host": [
-            "thinking-tester-contact-list",
-            "herokuapp",
-            "com"
+            "{{baseURL}}"
           ],
           "path": [
             "contacts",
@@ -202,16 +270,13 @@
         "header": [
           {
             "key": "Authorization",
-            "value": ""
+            "value": "{{tokenID}}"
           }
         ],
         "url": {
-          "raw": "https://thinking-tester-contact-list.herokuapp.com/users/logout",
-          "protocol": "https",
+          "raw": "{{baseURL}}/users/logout",
           "host": [
-            "thinking-tester-contact-list",
-            "herokuapp",
-            "com"
+            "{{baseURL}}"
           ],
           "path": [
             "users",
@@ -220,6 +285,20 @@
         }
       },
       "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseURL",
+      "value": ""
+    },
+    {
+      "key": "tokenID",
+      "value": ""
+    },
+    {
+      "key": "id",
+      "value": ""
     }
   ]
 }
