@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="GoRestAPIWorkFlow" tests="6" time="1.555">
+  <testsuite name="1.Get All Users" id="8416c120-977e-42e7-9c14-b8da1eacd2af" timestamp="2026-11-17T10:48:59.656Z" tests="1" failures="0" errors="0" time="0.560">
+    <testcase name="Status code is 200" time="0.560" classname="1GetAllUsers"/>
+  </testsuite>
+  <testsuite name="2.Create User" id="4805ad11-4b0e-4aa0-8ee9-cf788ee7eece" timestamp="2026-11-17T10:48:59.656Z" tests="3" failures="0" errors="0" time="0.200">
+    <testcase name="Successful POST request" time="0.200" classname="2CreateUser"/>
+    <testcase name="Check email prefix" time="0.200" classname="2CreateUser"/>
+    <testcase name="Content-Type is present" time="0.200" classname="2CreateUser"/>
+  </testsuite>
+  <testsuite name="3.GetUser By ID" id="e7d15741-1f67-45b0-9d44-e7cda4caa558" timestamp="2026-11-17T10:48:59.656Z" tests="2" failures="0" errors="0" time="0.191">
+    <testcase name="Status code is 200" time="0.191" classname="3GetUserById"/>
+    <testcase name="Check userID" time="0.191" classname="3GetUserById"/>
+  </testsuite>
+  <testsuite name="4.Update User By ID" id="247d5630-a275-4388-b536-a8cd932b9a1c" timestamp="2026-11-17T10:48:59.656Z" tests="3" failures="0" errors="0" time="0.212">
+    <testcase name="Status code is 200" time="0.212" classname="4UpdateUserById"/>
+    <testcase name="Response time is less than 500ms" time="0.212" classname="4UpdateUserById"/>
+    <testcase name="YCheck Status is inactive" time="0.212" classname="4UpdateUserById"/>
+  </testsuite>
+  <testsuite name="5.Delete User By ID" id="5b9b424c-2307-4725-ab58-90f04af970c2" timestamp="2026-11-17T10:48:59.656Z" tests="1" failures="0" errors="0" time="0.200">
+    <testcase name="Status code is 204" time="0.200" classname="5DeleteUserById"/>
+  </testsuite>
+  <testsuite name="6.Get User By ID" id="7e1b5f27-8f06-45ea-b346-a4e5ffc40168" timestamp="2026-11-17T10:48:59.656Z" tests="1" failures="0" errors="0" time="0.192">
+    <testcase name="Status code is 404" time="0.192" classname="6GetUserById"/>
+  </testsuite>
+</testsuites>

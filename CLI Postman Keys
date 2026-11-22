@@ -1,0 +1,32 @@
+CLI Postman Keys
+
+PMAK-6afb7c2a73ed05000161964e-38d8298d61003b60f2f387942f5ef00173
+
+postman login --with-api-key PMAK-6afb7c2a73ed05000161964e-38d8298d61003b60f2f387942f5ef00173
+
+postman collection run 54056107-2ddae22e-0be5-4ae6-9476-2ea2b2b8b8b8 -e 54056107-64a479e5-4c27-4e50-8d27-51fca5c5bda2
+
+
+postman collection run 54056107-2ddae22e-0be5-4ae6-9476-2ea2b2b8b8b8 -e 54056107-64a479e5-4c27-4e50-8d27-51fca5c5bda2 --verbose -r html -r cli
+
+postman collection run 54056107-2ddae22e-0be5-4ae6-9476-2ea2b2b8b8b8 -e 54056107-64a479e5-4c27-4e50-8d27-51fca5c5bda2 --verbose -r html,cli,json,junit
+
+
+Datadriven API collection:
+
+postman login --with-api-key PMAK-6afb7c2a73ed05000161964e-38d8298d61003b60f2f387942f5ef00173
+
+postman collection run 54056107-77e949dd-4eec-4b10-875a-9570e9b81fa2 -e 54056107-64a479e5-4c27-4e50-8d27-51fca5c5bda2
+
+RestfulBooker API
+
+postman login --with-api-key PMAK-6afb7c2a73ed05000161964e-38d8298d61003b60f2f387942f5ef00173
+
+postman collection run 54056107-825a30da-cf38-4bd9-8c35-b901aad5aef2 -e 54056107-3c523909-5e58-4c51-bc31-47f63f421068
+
+ImpScripts Multiple users
+
+postman login --with-api-key PMAK-6afb7c2a73ed05000161964e-38d8298d61003b60f2f387942f5ef00173
+postman collection run 54056107-2fa11b58-1cf6-45ef-a7ff-2736f2ad988f -e 54056107-b7ec350b-d635-4db0-a398-947b5e5a7d66 -i 54056107-3159baf7-1def-4b10-b7d2-e68145b0e704
+
+postman collection run 54056107-2fa11b58-1cf6-45ef-a7ff-2736f2ad988f -e 54056107-b7ec350b-d635-4db0-a398-947b5e5a7d66 -i 54056107-3159baf7-1def-4b10-b7d2-e68145b0e704 --verbose -d TestData/data.json -r html,cli

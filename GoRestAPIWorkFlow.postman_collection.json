@@ -1,0 +1,273 @@
+{
+  "info": {
+    "_postman_id": "2ddae22e-0be5-4ae6-9476-2ea2b2b8b8b8",
+    "name": "GoRestAPIWorkFlow",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54056107"
+  },
+  "item": [
+    {
+      "name": "1.Get All Users",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{tokenID}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseURL}}/public/v2/users",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2.Create User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const response_var = pm.response.json();\nconst res_userID = response_var.id;\nconsole.log(\"user ID: \" + res_userID);\npm.variables.set(\"userID\", res_userID);\n\npm.test(\"Successful POST request\", function () {\n    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\n});\npm.test(\"Check email prefix\", function () {\n    var jsonData = pm.response.json();\n    var expectedPrefix = \"apiautomation_\";\n    pm.expect(jsonData.email).to.have.string(expectedPrefix);\n});\n\npm.test(\"Content-Type is present\", function () {\n    pm.response.to.have.header(\"Content-Type\");\n});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const genders = [\"male\", \"female\"];\nconst randomGender = genders[Math.floor(Math.random() * genders.length)];\npm.collectionVariables.set(\"randomGender\", randomGender);\n\nconst status = [\"active\", \"inactive\"];\nconst randomStatus = status[Math.floor(Math.random() * status.length)];\npm.collectionVariables.set(\"randomStatus\", randomStatus);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{tokenID}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"{{$randomFullName}}\",\n    \"email\": \"apiautomation_{{$randomEmail}}\",\n    \"gender\": \"{{randomGender}}\",\n    \"status\": \"{{randomStatus}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/public/v2/users",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3.GetUser By ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\n\npm.test(\"Check userID\",function(){\n    const newUserID = pm.variables.get(\"userID\");\n    var jsonData = pm.response.json();\n    pm.expect(jsonData.id).to.eql(newUserID);\n\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{tokenID}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseURL}}/public/v2/users/{{userID}}",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users",
+            "{{userID}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4.Update User By ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\npm.test(\"Response time is less than 500ms\", function () {\n    pm.expect(pm.response.responseTime).to.be.below(500);\n});\n\npm.test(\"YCheck Status is inactive\", function () {\n    var jsonData = pm.response.json();\n    pm.expect(jsonData.status).to.eql(\"inactive\");\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{tokenID}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"status\": \"inactive\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/public/v2/users/{{userID}}",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users",
+            "{{userID}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5.Delete User By ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {\n    pm.response.to.have.status(204);\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{tokenID}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseURL}}/public/v2/users/{{userID}}",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users",
+            "{{userID}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "6.Get User By ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\n    pm.response.to.have.status(404);\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{tokenID}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseURL}}/public/v2/users/{{userID}}",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users",
+            "{{userID}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseURL",
+      "value": "https://gorest.co.in"
+    },
+    {
+      "key": "tokenID",
+      "value": "Bearer gorest_z4GXC6p3YR8HUWQYJG8VQA3QxCynzkKyquhEnsoHmFS3D0nW9"
+    },
+    {
+      "key": "randomGender",
+      "value": "female"
+    },
+    {
+      "key": "randomStatus",
+      "value": "active"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+[
+  {
+    "firstname": "Shilpa",
+    "lastname": "Medi",
+    "additionalneeds": "Breakfast"
+  },
+  {
+    "firstname": "Leighla",
+    "bookingdates": {
+      "checkin": "2018-01-01",
+      "checkout": "2019-01-01"
+    },
+    "additionalneeds": "lunch"
+  },
+  {
+    "firstname": "Rodrich",
+    "lastname": "Coughan",
+    "totalprice": 111,
+    "depositpaid": true,
+    "bookingdates": {
+      "checkin": "2018-01-01",
+      "checkout": "2019-01-01"
+    }
+  },
+  {
+    "firstname": "Smriti",
+    "lastname": "Irani",
+    "city": "New Delhi",
+    "totalprice": 111,
+    "bookingdates": {
+      "checkin": "2018-01-01",
+      "checkout": "2019-01-01"
+    },
+    "additionalneeds": "Dinner"
+  },
+  {
+    "name": "Revathy",
+    "city": "Pune",
+    "language": [
+      "Java",
+      "JavaScript"
+    ]
+  }
+]
