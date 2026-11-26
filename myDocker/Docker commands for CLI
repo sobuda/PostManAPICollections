@@ -1,0 +1,24 @@
+Docker commands for CLI
+
+#naming the docker file, D-should be caps and no extension
+Dockerfile
+
+#docker version check
+$ docker -v
+
+#gives images available
+$ docker images
+
+#gives containers 
+$ docker ps -a #gives containers 
+
+#Create Docker Image
+docker build -t sowmyabu/gorestapitest:1.0 .
+
+#Create Container
+docker run -v $(pwd)/newman:/app/newman sowmyabu/gorestapitest:1.0
+
+#push to Docker Hub
+docker push sowmyabu/gorestapitest:1.0
+
+

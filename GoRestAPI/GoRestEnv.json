@@ -1,0 +1,34 @@
+{
+	"id": "64a479e5-4c27-4e50-8d27-51fca5c5bda2",
+	"name": "GoRestEnv",
+	"values": [
+		{
+			"key": "tokenID",
+			"value": "Bearer gorest_z4GXC6p3YR8HUWQYJG8VQA3QxCynzkKyquhEnsoHmFS3D0nW9",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "baseURL",
+			"value": "https://gorest.co.in",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "firstname",
+			"value": "{{$randomFirstName}}",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "dynamicBody",
+			"value": "{\"name\":\"Brett Larson\",\"email\":\"BrettLarson@otter.com\",\"randomGender\":\"female\",\"randomStatus\":\"active\"}",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"color": null,
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-11-26T10:23:25.105Z",
+	"_postman_exported_using": "Postman/12.38.4"
+}

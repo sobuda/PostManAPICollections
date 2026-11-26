@@ -1,0 +1,109 @@
+{
+  "info": {
+    "_postman_id": "77e949dd-4eec-4b10-875a-9570e9b81fa2",
+    "name": "DataDrivenAPIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54056107"
+  },
+  "item": [
+    {
+      "name": "1.Create Users",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Successful POST request\", function () {\n    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\n});\n\npm.test(\"Check user Response Data\", function () {\n    var jsonData = pm.response.json();\n    pm.expect(jsonData.name).to.eql(pm.iterationData.get(\"name\"));\n    pm.expect(jsonData.gender).to.eql(pm.iterationData.get(\"gender\"));\n    pm.expect(jsonData.status).to.eql(pm.iterationData.get(\"status\"));\n\n    //fetch email from request body and check with response\n    const rawBody = pm.request.body.raw;//JSON string\n    const reqJSObj = JSON.parse(rawBody);\n    var email = reqJSObj.email;\n    console.log(\"Expected email: \"+ email);\n    pm.expect(jsonData.email).to.eql(email);\n});\n\nvar response = pm.response.json();\nvar userID = response.id;\npm.variables.set(\"user_ID\",userID);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{tokenID}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"{{name}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"gender\": \"{{gender}}\",\n    \"status\": \"{{status}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/public/v2/users",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2.Update Status",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\n\npm.test(\"Is User Active\", function () {\n    var jsonData = pm.response.json();\n    pm.expect(jsonData.status).to.eql(pm.iterationData.get(\"newstatus\"));\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{tokenID}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"status\": \"{{newstatus}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/public/v2/users/{{user_ID}}",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users",
+            "{{user_ID}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseURL",
+      "value": "https://gorest.co.in"
+    }
+  ]
+}

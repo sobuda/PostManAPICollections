@@ -1,0 +1,69 @@
+Jenkins install commands
+
+if system already has ~.jenkins file, we wont get the admin password. 
+If you see both Username and Password fields instead of a single "Administrator password" unlock box, Jenkins detected a pre-existing .jenkins folder in your home directory.
+
+
+Option A: Start Completely Fresh (If you have no saved jobs)
+
+1. Stop Jenkins in Terminal:bash
+brew services stop jenkins-lts
+
+
+Warning: Service `jenkins-lts` is not started.
+
+That warning simply means Homebrew isn't currently running Jenkins, which makes it safe to delete the folder right away.
+
+2.Delete the .jenkins folder:bash
+rm -rf ~/.jenkins
+
+3. Verify it is gone (this should return a "No such file or directory" message):bash
+ls -la ~/.jenkins
+
+3. Start Jenkins fresh (when you're ready to trigger the initial setup screen again):bash
+brew services start jenkins-lts
+
+CHROME EXTENSION for reports display
+https://chromewebstore.google.com/detail/disable-content-security/ieelmcmcagommplceebfedjlakkhpden?hl=en&pli=1
+
+#!/bin/bash #This line should be the first line of shell scripting
+
+----------------------------------
+----------------------------------
+Jenkins SHELL SCRIPTING COMMANDS
+__________________________________
+----------------------------------
+
+#rm -rf newman/*.html #Deletes all previous html reports
+
+#rm -rf newman/*.json #Deletes all previous json reports
+
+-----------------------------------------------------------------
+#Keep OLD files- Pick the latest file and rename the latest file
+-----------------------------------------------------------------
+
+#First approach
+newman run /Users/sowmyabudal/NewmanCollections/OCT2026_PostmanCollections/GoRestAPI/GoRestWorkFlow.json -e /Users/sowmyabudal/NewmanCollections/OCT2026_PostmanCollections/GoRestAPI/GoRestEnv.json --verbose -r cli,html,htmlextra,json 
+#--reporter-htmlextra-export newman/report-$(date +%Y%m%d%H%M%S).html 
+file=$(ls -t newman/GoRestAPIWorkFlow*.html | head -n 1) 
+if [ -f "$file" ]; then
+    cp -v "$file" newman/NewmanReport.html 
+fi
+
+####### Run Newman  and generate report with timestamp ##########
+
+newman run /Users/sowmyabudal/NewmanCollections/OCT2026_PostmanCollections/GoRestAPI/GoRestWorkFlow.json -e /Users/sowmyabudal/NewmanCollections/OCT2026_PostmanCollections/GoRestAPI/GoRestEnv.json --verbose -r cli,html,htmlextra,json --reporter-htmlextra-export newman/report-$(date +%Y%m%d%H%M%S).html 
+
+#### Wait to ensure file is fully written
+sleep 2
+
+########## Find the latest report and rename it ##############
+
+LATEST_REPORT=$(ls -t newman/report-*.html | head -n 1) 
+
+echo "Latest report $LATEST_REPORT" 
+if [ -f "$LATEST_REPORT" ]; 
+then mv "$LATEST_REPORT" newman/NewmanReport.html 
+echo "Report renamed" 
+else echo "No Report" 
+fi
